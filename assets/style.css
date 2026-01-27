@@ -1,0 +1,408 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    padding: 15px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 22px;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.email-section {
+    grid-column: 1 / span 2;
+    margin-top: 0;
+}
+
+.form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.preview-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #3498db;
+    font-size: 18px;
+}
+
+h3 {
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item input {
+    margin-right: 6px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#downloadBtn {
+    background-color: #2ecc71;
+    color: white;
+    flex: 2;
+}
+
+#downloadBtn:hover {
+    background-color: #27ae60;
+}
+
+#resetBtn {
+    background-color: #e74c3c;
+    color: white;
+    flex: 1;
+}
+
+#resetBtn:hover {
+    background-color: #c0392b;
+}
+
+.letter-preview {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    min-height: 300px;
+    width: 100%;
+}
+
+.letter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.letter-perihal {
+    text-align: left;
+}
+
+.letter-perihal p {
+    margin-bottom: 2px;
+    line-height: 1.6;
+}
+
+.letter-date {
+    text-align: right;
+}
+
+.recipient {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.recipient p {
+    margin-bottom: 2px;
+}
+
+.salutation {
+    margin-bottom: 5px;
+}
+
+.letter-body {
+    text-align: justify;
+    margin-bottom: 15px;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.letter-body p {
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+.data-pribadi {
+    margin-bottom: 15px;
+}
+
+.data-pribadi li {
+    margin-bottom: 3px;
+    list-style-position: inside;
+}
+
+.attachment-list {
+    margin: 10px 0 15px 0;
+    padding-left: 20px;
+}
+
+.attachment-list li {
+    margin-bottom: 3px;
+}
+
+.letter-closing {
+    margin-top: 20px;
+}
+
+.signature {
+    margin-top: 60px;
+    text-align: right;
+    padding-right: 50px;
+}
+
+.letter-instruction {
+    color: #7f8c8d;
+    font-style: italic;
+    text-align: center;
+    padding: 30px 15px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 15px;
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
+.live-update-indicator {
+    background-color: #3498db;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    display: inline-block;
+    margin-left: 8px;
+    animation: pulse 2s infinite;
+}
+
+.email-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.email-body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+}
+
+.copy-email-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.copy-email-btn:hover {
+    background-color: #2980b9;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+@media print {
+    .form-container, .button-group, .footer, header, .email-container {
+        display: none;
+    }
+    
+    .preview-container {
+        box-shadow: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 15mm;
+        margin: 0;
+    }
+    
+    body {
+        background-color: white;
+        padding: 0;
+    }
+    
+    .letter-preview {
+        font-size: 12pt;
+        font-family: Arial, sans-serif;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .email-section {
+        grid-column: 1;
+    }
+    
+    body {
+        padding: 10px;
+    }
+    
+    .form-container,
+    .preview-container {
+        padding: 15px;
+    }
+    
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .letter-header {
+        flex-direction: column;
+    }
+    
+    .letter-perihal,
+    .letter-date {
+        text-align: left;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .signature {
+        text-align: center;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .button-group {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.letter-content {
+    width: 100%;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.data-table td {
+    padding: 2px 0;
+    vertical-align: top;
+}
+
+.data-table td:first-child {
+    width: 40%;
+}

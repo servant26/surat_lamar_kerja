@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/surat.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <title>Generator Surat Lamaran Kerja</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Generator Surat Lamaran Kerja <span class="live-update-indicator">Live Update</span></h1>
+            <p class="subtitle">Isi form di bawah untuk membuat surat lamaran kerja secara otomatis (berubah langsung saat diisi)</p>
+        </header>
+        
+        <div class="main-layout">
+            <div class="form-container">
+                <h2>Formulir Data Lamaran</h2>
+                
+                <div class="form-group">
+                    <label for="company">Nama Perusahaan / Bisnis</label>
+                    <input type="text" id="company" placeholder="Isi nama bisnis/usaha">
+                </div>
+                
+                <div class="form-group">
+                    <label for="position">Posisi yang Dilamar</label>
+                    <input type="text" id="position" placeholder="Isi Posisi">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Alamat</label>
+                    <input type="text" id="address" placeholder="Isi alamat">
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">Kota pada Tanggal *</label>
+                    <input type="text" id="city" placeholder="Isi Nama Kota" value="Samarinda">
+                </div>
+                
+                <div class="form-group">
+                    <label for="source">Sumber Informasi Lowongan</label>
+                    <select id="source">
+                        <option value="Instagram">Instagram</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Koran">Koran</option>
+                        <option value="Website">Website</option>
+                        <option value="Teman">Teman/Kolega</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Nama Lengkap *</label>
+                    <input type="text" id="name" placeholder="Isi Nama" value="Ali Khatami">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ttl">Tempat, Tanggal Lahir *</label>
+                    <input type="text" id="ttl" placeholder="Isi TTL" value="Tanah Grogot, 26 April 2003">
+                </div>
+                
+                <div class="form-group">
+                    <label for="education">Pendidikan Terakhir *</label>
+                    <input type="text" id="education" placeholder="Isi Pendidikan Terakhir" value="S1 Universitas Mulawarman">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">No. Telepon *</label>
+                    <input type="tel" id="phone" placeholder="Isi Kontak" value="083813414319">
+                </div>
+                
+                <div class="form-group">
+                    <label for="homeAddress">Alamat Rumah *</label>
+                    <input type="text" id="homeAddress" placeholder="Isi Alamat Rumah" value="Jl. Trisari Gg. Sinarsari RT 19">
+                </div>
+                
+                <div class="form-group">
+                    <label>Berkas yang Dilampirkan (Opsional)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cv" value="Daftar Riwayat Hidup (CV)">
+                            <label for="cv">Daftar Riwayat Hidup (CV)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ktp" value="Scan KTP">
+                            <label for="ktp">Scan KTP</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="foto" value="Pas Foto">
+                            <label for="foto">Pas Foto</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ijazah" value="Ijazah Terakhir">
+                            <label for="ijazah">Ijazah Terakhir</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="transkrip" value="Transkrip Nilai">
+                            <label for="transkrip">Transkrip Nilai</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="skck" value="SKCK">
+                            <label for="skck">SKCK</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="downloadBtn">Download PDF</button>
+                    <button id="resetBtn">Reset Form</button>
+                </div>
+            </div>
+            
+            <div class="preview-container">
+                <h2>Pratinjau Surat Lamaran</h2>
+                <div class="letter-preview" id="letterPreview">
+                    <p class="letter-instruction">Mulai mengisi formulir di sebelah kiri untuk melihat pratinjau surat lamaran kerja Anda secara langsung.</p>
+                </div>
+            </div>
+            
+            <div class="email-section">
+                <div class="email-container">
+                    <h3>Teks Body Email (Untuk Dikirim Bersama Lampiran)</h3>
+                    <div class="email-body" id="emailBody">
+                        Mulai mengisi formulir untuk melihat teks body email yang bisa Anda gunakan saat mengirim lamaran via email.
+                    </div>
+                    <button class="copy-email-btn" id="copyEmailBtn">Salin Teks Email</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Generator Surat Lamaran Kerja &copy; 2026 | Live Update | Hasil surat dapat diunduh dalam format PDF</p>
+        </div>
+    </div>
+
+    <script src="assets/jspdf.umd.min.js"></script>
+    <script src="assets/script.js"></script>
+</body>
+</html>
