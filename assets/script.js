@@ -355,9 +355,10 @@ function generateLetter() {
         letterHTML = '<p class="letter-instruction">Mulai mengisi formulir untuk melihat pratinjau surat lamaran kerja Anda.</p>';
     } else {
         letterHTML = `
-            <div class="letter-header">
-                <div class="letter-perihal">
-                    <p>Perihal : Lamaran Pekerjaan</p>
+            <div class="letter-content">
+                <div class="letter-header">
+                    <div class="letter-perihal">
+                        <p>Perihal : Lamaran Pekerjaan</p>
         `;
         
         if (attachments.length > 0) {
@@ -365,14 +366,14 @@ function generateLetter() {
         }
         
         letterHTML += `
+                    </div>
+                    <div class="letter-date">
+                        <p>${getCurrentDateWithCity()}</p>
+                    </div>
                 </div>
-                <div class="letter-date">
-                    <p>${getCurrentDateWithCity()}</p>
-                </div>
-            </div>
-            
-            <div class="recipient">
-                <p>Kepada Yth.</p>
+                
+                <div class="recipient">
+                    <p>Kepada Yth.</p>
         `;
         
         if (company) {
@@ -382,15 +383,15 @@ function generateLetter() {
         }
         
         letterHTML += `
-                <p>Di</p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;${address || "Alamat"}</p>
-            </div>
-            
-            <div class="salutation">
-                <p>Dengan hormat,</p>
-            </div>
-            
-            <div class="letter-body">
+                    <p>Di</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;${address || "Alamat"}</p>
+                </div>
+                
+                <div class="salutation">
+                    <p>Dengan hormat,</p>
+                </div>
+                
+                <div class="letter-body">
         `;
         
         if (company) {
@@ -408,34 +409,34 @@ function generateLetter() {
         }
         
         letterHTML += `
-            </div>
-            
-            <div class="data-pribadi">
-                <table class="data-table">
-                    <tr>
-                        <td>1. Nama Lengkap</td>
-                        <td>: ${name}</td>
-                    </tr>
-                    <tr>
-                        <td>2. Tempat, Tanggal Lahir</td>
-                        <td>: ${ttl}</td>
-                    </tr>
-                    <tr>
-                        <td>3. Pendidikan Terakhir</td>
-                        <td>: ${education}</td>
-                    </tr>
-                    <tr>
-                        <td>4. No. Telepon</td>
-                        <td>: ${phone}</td>
-                    </tr>
-                    <tr>
-                        <td>5. Alamat</td>
-                        <td>: ${homeAddress}</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="letter-body">
+                </div>
+                
+                <div class="data-pribadi">
+                    <table class="data-table">
+                        <tr>
+                            <td>Nama Lengkap</td>
+                            <td>: ${name}</td>
+                        </tr>
+                        <tr>
+                            <td>Tempat, Tanggal Lahir</td>
+                            <td>: ${ttl}</td>
+                        </tr>
+                        <tr>
+                            <td>Pendidikan Terakhir</td>
+                            <td>: ${education}</td>
+                        </tr>
+                        <tr>
+                            <td>No. Telepon</td>
+                            <td>: ${phone}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td>: ${homeAddress}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="letter-body">
         `;
         
         if (attachments.length > 0) {
@@ -455,13 +456,14 @@ function generateLetter() {
         }
         
         letterHTML += `
-                <p>Demikian surat lamaran ini saya ajukan sebagai bahan pertimbangan. Atas perhatian Bapak/Ibu, saya ucapkan terima kasih.</p>
-            </div>
-            
-            <div class="signature">
-                <p>Hormat saya,</p>
-                <br><br><br>
-                <p>${name}</p>
+                    <p>Demikian surat lamaran ini saya ajukan sebagai bahan pertimbangan. Atas perhatian Bapak/Ibu, saya ucapkan terima kasih.</p>
+                </div>
+                
+                <div class="signature">
+                    <p>Hormat saya,</p>
+                    <br><br><br>
+                    <p>${name}</p>
+                </div>
             </div>
         `;
     }
@@ -553,7 +555,7 @@ function copyEmailBody() {
     document.body.removeChild(textarea);
 }
 
-// Download as PDF
+// PERBAIKAN: Download as PDF dengan format penamaan baru
 function downloadPDF() {
     const letterPreview = document.getElementById('letterPreview');
     if (letterPreview.querySelector('.letter-instruction')) {
@@ -568,14 +570,14 @@ function downloadPDF() {
     const attachments = getCheckedAttachments();
     
     const { company, source, position, address, city, name, ttl, education, phone, homeAddress } = formValues;
-    const positionText = position || "Lamaran";
     
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
     const marginLeft = 20;
-    const marginRight = 16;
+    const marginRight = 20;
     const marginTop = 20;
+    const contentWidth = 210 - marginLeft - marginRight;
     let yPos = marginTop;
     
     doc.setFont("times");
@@ -593,24 +595,31 @@ function downloadPDF() {
         return false;
     }
     
+    // Header dengan perihal dan tanggal sejajar
     doc.setFontSize(12);
     doc.setFont("times", "normal");
     
+    // Perihal (kiri atas)
     doc.text("Perihal : Lamaran Pekerjaan", marginLeft, yPos);
     
+    // Lampiran di bawah perihal (jika ada)
     if (attachments.length > 0) {
         doc.text(`Lampiran : ${attachments.length} Lembar`, marginLeft, yPos + 6);
     }
     
-    const dateX = 210 - marginRight - 2;
+    // Tanggal (kanan atas) - diposisikan sama dengan perihal
+    const dateX = 208 - marginRight;
     doc.text(currentDateWithCity, dateX, yPos, { align: "right" });
     
     if (attachments.length > 0) {
-        yPos += 18;
-    } else {
         yPos += 12;
+    } else {
+        yPos += 6;
     }
     
+    // Penerima surat
+    checkNewPage(20);
+    yPos += 6;
     doc.text("Kepada Yth.", marginLeft, yPos);
     yPos += 6;
     
@@ -624,14 +633,17 @@ function downloadPDF() {
     doc.text("Di", marginLeft, yPos);
     yPos += 6;
     
-    doc.text(`    ${address || "Alamat"}`, marginLeft, yPos);
+    // Alamat dengan indentasi
+    const addressText = `    ${address || "Alamat"}`;
+    doc.text(addressText, marginLeft, yPos);
     yPos += 12;
     
+    // Salam pembuka
+    checkNewPage(10);
     doc.text("Dengan hormat,", marginLeft, yPos);
     yPos += 10;
     
-    const textWidth = 210 - marginLeft - marginRight;
-    
+    // Isi surat dengan justify
     let openingText = "";
     
     if (company) {
@@ -648,38 +660,41 @@ function downloadPDF() {
         }
     }
     
-    const splitText = doc.splitTextToSize(openingText, textWidth);
-    splitText.forEach(line => {
+    // Gunakan justify dengan splitTextToSize
+    const splitOpeningText = doc.splitTextToSize(openingText, contentWidth);
+    splitOpeningText.forEach(line => {
         checkNewPage(6);
-        doc.text(line, marginLeft, yPos);
+        doc.text(line, marginLeft, yPos, { align: "justify" });
         yPos += 6;
     });
     
     yPos += 6;
     
+    // Data pribadi dengan tabel sederhana
     checkNewPage(30);
     const labelWidth = 60;
     
-    doc.text("1. Nama Lengkap", marginLeft, yPos);
+    doc.text("Nama Lengkap", marginLeft, yPos);
     doc.text(`: ${name}`, marginLeft + labelWidth, yPos);
     yPos += 7;
     
-    doc.text("2. Tempat, Tanggal Lahir", marginLeft, yPos);
+    doc.text("Tempat, Tanggal Lahir", marginLeft, yPos);
     doc.text(`: ${ttl}`, marginLeft + labelWidth, yPos);
     yPos += 7;
     
-    doc.text("3. Pendidikan Terakhir", marginLeft, yPos);
+    doc.text("Pendidikan Terakhir", marginLeft, yPos);
     doc.text(`: ${education}`, marginLeft + labelWidth, yPos);
     yPos += 7;
     
-    doc.text("4. No. Telepon", marginLeft, yPos);
+    doc.text("No. Telepon", marginLeft, yPos);
     doc.text(`: ${phone}`, marginLeft + labelWidth, yPos);
     yPos += 7;
     
-    doc.text("5. Alamat", marginLeft, yPos);
+    doc.text("Alamat", marginLeft, yPos);
     doc.text(`: ${homeAddress}`, marginLeft + labelWidth, yPos);
     yPos += 12;
     
+    // Lampiran jika ada
     if (attachments.length > 0) {
         checkNewPage(18);
         
@@ -690,42 +705,61 @@ function downloadPDF() {
             lampiranText = `Dengan ini mengajukan permohonan kerja pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas-berkas pendukung:`;
         }
         
-        const splitLampiranText = doc.splitTextToSize(lampiranText, textWidth);
+        const splitLampiranText = doc.splitTextToSize(lampiranText, contentWidth);
         splitLampiranText.forEach(line => {
             checkNewPage(6);
-            doc.text(line, marginLeft, yPos);
+            doc.text(line, marginLeft, yPos, { align: "justify" });
             yPos += 6;
         });
         
         yPos += 4;
         
+        // Daftar lampiran
         attachments.forEach((item, index) => {
             checkNewPage(7);
-            doc.text(`${index + 1}. ${item}`, marginLeft, yPos);
+            doc.text(`${index + 1}. ${item}`, marginLeft + 5, yPos);
             yPos += 7;
         });
         
         yPos += 6;
     }
     
+    // Penutup dengan justify
     checkNewPage(18);
     const closingText = "Demikian surat lamaran ini saya ajukan sebagai bahan pertimbangan. Atas perhatian Bapak/Ibu, saya ucapkan terima kasih.";
     
-    const splitClosingText = doc.splitTextToSize(closingText, textWidth);
+    const splitClosingText = doc.splitTextToSize(closingText, contentWidth);
     splitClosingText.forEach(line => {
         checkNewPage(6);
-        doc.text(line, marginLeft, yPos);
+        doc.text(line, marginLeft, yPos, { align: "justify" });
         yPos += 6;
     });
     
-    yPos += 30;
+    // Tanda tangan di pojok kanan
+    yPos += 20;
     checkNewPage(35);
     
-    const ttdX = 162;
-    doc.text("Hormat saya,", ttdX, yPos);
-    doc.text(name, ttdX, yPos + 25);
+    const ttdX = 185; // Posisi kanan
+    doc.text("Hormat saya,", ttdX, yPos, { align: "right" });
+    doc.text(name, ttdX, yPos + 20, { align: "right" });
     
-    const filename = `Surat_Lamaran_${positionText.replace(/\s+/g, '_')}_${formattedDate}.pdf`;
+    // PERBAIKAN: Format penamaan file baru - Surat_Lamar_NamaBisnisUsaha
+    let companyNameForFilename = company || "Perusahaan";
+    
+    // Bersihkan nama perusahaan untuk nama file
+    let cleanCompanyName = companyNameForFilename
+        .replace(/[^a-zA-Z0-9\s]/g, '') // Hapus karakter khusus
+        .replace(/\s+/g, '_')           // Ganti spasi dengan underscore
+        .substring(0, 50);              // Batasi panjang nama
+    
+    // Jika nama perusahaan kosong, gunakan "Perusahaan"
+    if (!cleanCompanyName || cleanCompanyName.trim() === '') {
+        cleanCompanyName = "Perusahaan";
+    }
+    
+    // Format nama file: Surat_Lamar_NamaBisnisUsaha.pdf
+    const filename = `Surat_Lamar_${cleanCompanyName}.pdf`;
+    
     doc.save(filename);
 }
 
@@ -760,6 +794,7 @@ function setupAllAutocomplete() {
     setupAutocomplete('address', 'address');
 }
 
+// Add event listeners for live update
 // Add event listeners for live update
 function setupLiveUpdate() {
     const desktopElements = [

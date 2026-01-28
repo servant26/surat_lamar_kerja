@@ -167,78 +167,113 @@ button {
     width: 100%;
 }
 
+/* Header surat dengan perihal dan tanggal sejajar */
 .letter-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 .letter-perihal {
     text-align: left;
+    flex-grow: 1;
 }
 
 .letter-perihal p {
     margin-bottom: 2px;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .letter-date {
     text-align: right;
+    white-space: nowrap;
 }
 
-.recipient {
-    margin-top: 10px;
-    margin-bottom: 15px;
+.letter-date p {
+    margin-bottom: 2px;
     line-height: 1.5;
 }
 
+.recipient {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
 .recipient p {
-    margin-bottom: 2px;
+    margin-bottom: 3px;
 }
 
 .salutation {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
+/* Teks body dengan justify */
 .letter-body {
     text-align: justify;
     margin-bottom: 15px;
     word-wrap: break-word;
     hyphens: auto;
+    text-justify: inter-word;
 }
 
 .letter-body p {
     margin-bottom: 10px;
     text-align: justify;
+    text-justify: inter-word;
 }
 
 .data-pribadi {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
     margin-bottom: 15px;
 }
 
-.data-pribadi li {
-    margin-bottom: 3px;
-    list-style-position: inside;
+.data-table td {
+    padding: 2px 0;
+    vertical-align: top;
+    text-align: left;
+}
+
+.data-table td:first-child {
+    width: 40%;
+    padding-right: 10px;
+}
+
+.data-table td:last-child {
+    width: 60%;
 }
 
 .attachment-list {
-    margin: 10px 0 15px 0;
-    padding-left: 20px;
+    margin: 10px 0 15px 20px;
 }
 
 .attachment-list li {
     margin-bottom: 3px;
+    text-align: justify;
 }
 
 .letter-closing {
     margin-top: 20px;
 }
 
+/* Signature di pojok kanan */
 .signature {
-    margin-top: 60px;
+    margin-top: 80px;
     text-align: right;
-    padding-right: 50px;
+    width: 100%;
+}
+
+.signature p {
+    margin-bottom: 3px;
+    line-height: 1.8;
 }
 
 .letter-instruction {
@@ -365,21 +400,6 @@ button {
     width: 100%;
 }
 
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 15px;
-}
-
-.data-table td {
-    padding: 2px 0;
-    vertical-align: top;
-}
-
-.data-table td:first-child {
-    width: 40%;
-}
-
 @media print {
     .form-container, .button-group, .footer, header, .email-container,
     .autocomplete-wrapper .autocomplete-suggestions {
@@ -401,7 +421,26 @@ button {
     
     .letter-preview {
         font-size: 12pt;
-        font-family: Arial, sans-serif;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    
+    /* Print styling untuk justify */
+    .letter-body, .letter-body p {
+        text-align: justify !important;
+    }
+    
+    .letter-header {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+    
+    .letter-date {
+        text-align: right !important;
+    }
+    
+    .signature {
+        text-align: right !important;
+        margin-top: 60px !important;
     }
 }
 
@@ -429,22 +468,32 @@ button {
     
     .letter-header {
         flex-direction: column;
+        align-items: flex-start;
     }
     
-    .letter-perihal,
-    .letter-date {
+    .letter-perihal {
         text-align: left;
         width: 100%;
         margin-bottom: 5px;
     }
     
+    .letter-date {
+        text-align: left;
+        width: 100%;
+        margin-top: 5px;
+    }
+    
     .signature {
         text-align: center;
-        padding-right: 0;
+        margin-top: 40px;
     }
     
     .autocomplete-suggestions {
         max-height: 150px;
+    }
+    
+    .data-table td:first-child {
+        width: 45% !important;
     }
 }
 
@@ -455,5 +504,23 @@ button {
     
     button {
         width: 100%;
+    }
+    
+    .data-table {
+        font-size: 11pt;
+    }
+    
+    .data-table td:first-child {
+        width: 45% !important;
+    }
+    
+    .letter-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .letter-date {
+        text-align: left !important;
+        margin-top: 10px;
     }
 }
