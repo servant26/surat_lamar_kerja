@@ -40,74 +40,52 @@ const MASTER_POSITIONS = [
 ];
 
 const MASTER_ADDRESSES = [
-    "Jl. A. Yani",
-    "Jl. Abdul Wahab Syahranie",
-    "Jl. Abdurahman Saleh",
-    "Jl. Ade Irma Suryani",
-    "Jl. Agus Salim",
-    "Jl. Ahmad Dahlan",
-    "Jl. AR Hakim",
-    "Jl. Awang Long",
-    "Jl. Basuki Rahmat",
-    "Jl. Belimau",
-    "Jl. Bengkuring Raya",
-    "Jl. Beringin",
-    "Jl. Bukit Alaya",
-    "Jl. Bung Tomo",
-    "Jl. Cendana",
-    "Jl. Cipto Mangunkusumo",
-    "Jl. DI Panjaitan",
-    "Jl. Gajah Mada",
-    "Jl. Gatot Subroto",
-    "Jl. Gerilya",
-    "Jl. HAM Rifaddin",
-    "Jl. Hasan Basri",
-    "Jl. Hidayatullah",
-    "Jl. Imam Bonjol",
-    "Jl. Juanda",
-    "Jl. Jendral Sudirman",
-    "Jl. Kebun Raya Unmul",
-    "Jl. Kemakmuran",
-    "Jl. KH Wahid Hasyim",
-    "Jl. Kusuma Bangsa",
-    "Jl. Lambung Mangkurat",
-    "Jl. Letjen S. Parman",
-    "Jl. Lempake",
-    "Jl. Martadinata",
-    "Jl. M. Yamin",
-    "Jl. Mulawarman",
-    "Jl. Mugirejo",
-    "Jl. Muara Badak",
-    "Jl. Niaga Utara",
-    "Jl. Niaga Selatan",
-    "Jl. Pahlawan",
-    "Jl. Pangeran Antasari",
-    "Jl. Pangeran Pranata",
-    "Jl. Pangeran Suryanata",
-    "Jl. Pelabuhan",
-    "Jl. Perjuangan",
-    "Jl. PM Noor",
-    "Jl. Pakis",
-    "Jl. R.A. Kartini",
-    "Jl. Ring Road",
-    "Jl. Outer Ring Road",
-    "Jl. Ruhui Rahayu",
-    "Jl. Rumbia",
-    "Jl. S. Parman",
-    "Jl. Siradj Salman",
-    "Jl. Soekarno-Hatta",
-    "Jl. Sungai Kapih",
-    "Jl. Sentosa",
-    "Jl. Teuku Umar",
-    "Jl. Tanah Merah",
-    "Jl. Tengkawang",
-    "Jl. Untung Suropati",
-    "Jl. WR Supratman",
-    "Jl. Yos Sudarso",
-    "Ring Road Samarinda",
-    "Outer Ring Road Samarinda",
-    "Jalur Samarinda – Bontang",
-    "Jalur Samarinda – Tenggarong"
+    "Jl. A. Yani", "Jl. A. Yani I", "Jl. A. Yani II",
+    "Jl. Abdul Wahab Syahranie", "Jl. Abdurahman Saleh",
+    "Jl. Ade Irma Suryani", "Jl. Agus Salim", "Jl. Ahmad Dahlan",
+    "Jl. Al Falah", "Jl. AM Sangaji", "Jl. Antasari", "Jl. Anang Hasyim",
+    "Jl. APT Pranoto", "Jl. AR Hakim", "Jl. Awang Long",
+    "Jl. Baung", "Jl. Basuki Rahmat", "Jl. Basuki Rahmat I", "Jl. Basuki Rahmat II",
+    "Jl. Belimau", "Jl. Bengkuring Raya", "Jl. Berambai", "Jl. Beringin",
+    "Jl. Biola", "Jl. Bitek", "Jl. Bromo", "Jl. Bukit Alaya", "Jl. Bukit Barisan",
+    "Jl. Bung Tomo", "Jl. Cendana", "Jl. Cendrawasih", "Jl. Cipto Mangunkusumo",
+    "Jl. Cumi-Cumi", "Jl. D.I. Panjaitan", "Jl. Danau Toba", "Jl. Damai",
+    "Jl. Damanhuri", "Jl. Damanhuri II", "Jl. Dr. Soetomo",
+    "Jl. Ery Soepardjan", "Jl. Flores", "Jl. Gajah Mada",
+    "Jl. Gatot Subroto", "Jl. Gelatik", "Jl. Gerilya", "Jl. Gerilya Solong",
+    "Jl. Gunung Belah", "Jl. Gunung Cermai", "Jl. Gunung Kelua", "Jl. Gunung Lingai",
+    "Jl. HAM Rifaddin", "Jl. Harmonika", "Jl. Harun Nafsi", "Jl. Hasan Basri",
+    "Jl. Hidayatullah", "Jl. Imam Bonjol", "Jl. Irian", "Jl. Jakarta", "Jl. Jawa",
+    "Jl. Jelawat", "Jl. Jendral Sudirman", "Jl. Juanda", "Jl. Kakap",
+    "Jl. Kalimantan", "Jl. Karang Asam", "Jl. Karang Paci", "Jl. Katamso",
+    "Jl. Kebon Agung", "Jl. Kebun Raya Unmul", "Jl. Kemakmuran",
+    "Jl. KH Abul Hasan", "Jl. KH Ahmad Dahlan", "Jl. KH Anang Hasyim",
+    "Jl. KH Harun Nafsi", "Jl. KH Samanhudi", "Jl. KH Wahid Hasyim I", "Jl. KH Wahid Hasyim II",
+    "Jl. Kinibalu", "Jl. Kusuma Bangsa", "Jl. Lambung Mangkurat",
+    "Jl. Lempake", "Jl. Lempake Jaya", "Jl. Letjen MT Haryono", "Jl. Letjen S. Parman",
+    "Jl. Loa Bakung", "Jl. Loa Duri", "Jl. Loa Janan", "Jl. Loa Kulu",
+    "Jl. M. Said", "Jl. M. Yamin", "Jl. Makroman", "Jl. Malioboro",
+    "Jl. Marsda A. Saleh", "Jl. Martadinata", "Jl. Merbabu", "Jl. Merdeka",
+    "Jl. Muara Badak", "Jl. Mugirejo", "Jl. Mulawarman", "Jl. Muso Salim",
+    "Jl. Naga", "Jl. Niaga Selatan", "Jl. Niaga Utara", "Jl. Nusyirwan Ismail",
+    "Jl. Otto Iskandardinata", "Jl. P. Antasari", "Jl. P. Hidayatullah", "Jl. P. Sebatik",
+    "Jl. P. Suryanata", "Jl. Pahlawan", "Jl. Pakis", "Jl. Palaran",
+    "Jl. Pandan Harum", "Jl. Panglima Batur", "Jl. Pasundan", "Jl. Pattimura",
+    "Jl. Pelabuhan", "Jl. Pelita", "Jl. Pemuda", "Jl. Pangeran Diponegoro",
+    "Jl. Perjuangan", "Jl. Perniagaan", "Jl. PM Noor", "Jl. Pramuka",
+    "Jl. Pulau Banda", "Jl. Pulau Derawan", "Jl. Pulau Flores", "Jl. Pulau Kakaban",
+    "Jl. Pulau Maratua", "Jl. Pulau Sebatik", "Jl. R.A. Kartini", "Jl. Rajawali",
+    "Jl. Rapak Indah", "Jl. Remaja", "Jl. Riau", "Jl. Ring Road I", "Jl. Ring Road II",
+    "Jl. Ruhui Rahayu", "Jl. Rumbia", "Jl. S. Parman", "Jl. Sambutan",
+    "Jl. Sebulu", "Jl. Sedap Malam", "Jl. Semani", "Jl. Sempaja", "Jl. Sentosa",
+    "Jl. Sidodadi", "Jl. Sidomulyo", "Jl. Siloam", "Jl. Siradj Salman",
+    "Jl. Soekarno-Hatta", "Jl. Sultan Alimuddin", "Jl. Sultan Hasanuddin",
+    "Jl. Sultan Sulaiman", "Jl. Sungai Ampal", "Jl. Sungai Dama", "Jl. Sungai Kapih",
+    "Jl. Sungai Keledang", "Jl. Suryanata", "Jl. Sutami", "Jl. Syahrani Dahlan",
+    "Jl. Tarmidi", "Jl. Tanah Merah", "Jl. Tanjung Karang", "Jl. Teuku Umar",
+    "Jl. Tengkawang", "Jl. Teratai", "Jl. Trisari", "Jl. Tridharma",
+    "Jl. Untung Suropati", "Jl. Urip Sumoharjo", "Jl. Wahid Hasyim",
+    "Jl. Wolter Monginsidi", "Jl. WR Supratman", "Jl. Yos Sudarso"
 ];
 
 // Variables untuk menyimpan history input user
@@ -121,7 +99,7 @@ let attachmentOrder = [];
 const PROFILE = {
     name: "Ali Khatami",
     ttl: "Tanah Grogot, 26 April 2003",
-    education: "S1 Universitas Mulawarman",
+    education: "S1 Prodi Sistem Informasi Universitas Mulawarman",
     phone: "083813414319",
     homeAddress: "Jl. Trisari Gg. Sinarsari RT 19",
     city: "Samarinda"
@@ -146,10 +124,14 @@ function getFormattedDate() {
 
 // Get form values
 function getFormValues() {
+    const rawCompany = (document.getElementById('company') ? document.getElementById('company').value : '').trim();
+    const rawPosition = (document.getElementById('position') ? document.getElementById('position').value : '').trim();
+    const rawAddress = (document.getElementById('address') ? document.getElementById('address').value : '').trim();
+
     return {
-        company: (document.getElementById('company') ? document.getElementById('company').value : '').trim(),
-        position: (document.getElementById('position') ? document.getElementById('position').value : '').trim(),
-        address: (document.getElementById('address') ? document.getElementById('address').value : '').trim(),
+        company: toTitleCase(rawCompany),
+        position: toTitleCase(rawPosition),
+        address: toTitleCase(rawAddress),
         source: document.getElementById('source') ? document.getElementById('source').value : 'Instagram',
         city: PROFILE.city,
         name: PROFILE.name,
@@ -178,14 +160,12 @@ function getCheckedAttachments() {
     return attachments;
 }
 
-// Fungsi untuk mencari suggestions
+// Fungsi untuk mencari suggestions (Lokal Samarinda + Custom User)
 function getSuggestions(query, type) {
     query = query.toLowerCase();
     let suggestions = [];
 
-    // Gabungkan data master dengan data user
     let allData = [];
-
     switch (type) {
         case 'position':
             allData = [...new Set([...MASTER_POSITIONS, ...userEnteredPositions])];
@@ -195,12 +175,65 @@ function getSuggestions(query, type) {
             break;
     }
 
-    // Filter data berdasarkan query
     suggestions = allData.filter(item =>
         item.toLowerCase().includes(query)
     ).slice(0, 10);
 
     return suggestions;
+}
+
+// Cache hasil query OpenStreetMap agar hemat request & super cepat
+const osmAddressCache = {};
+let osmAbortController = null;
+
+// Fungsi fetch alamat online OpenStreetMap (khusus Samarinda)
+async function fetchSamarindaOnlineAddresses(query) {
+    const cleanQuery = query.trim().replace(/^jl\.?\s*/i, '');
+    if (cleanQuery.length < 3) return [];
+
+    if (osmAddressCache[cleanQuery.toLowerCase()]) {
+        return osmAddressCache[cleanQuery.toLowerCase()];
+    }
+
+    if (osmAbortController) {
+        osmAbortController.abort();
+    }
+    osmAbortController = new AbortController();
+
+    try {
+        // Query dibatasi spesifik wilayah Samarinda, Indonesia
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cleanQuery)}+Samarinda&format=jsonv2&addressdetails=1&countrycodes=id&limit=8`;
+        const res = await fetch(url, {
+            signal: osmAbortController.signal,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!res.ok) return [];
+        const data = await res.json();
+
+        const results = [];
+        data.forEach(item => {
+            const addr = item.address || {};
+            const road = addr.road || addr.pedestrian || addr.suburb || item.name;
+            if (road) {
+                let formatted = road;
+                if (!/^jl|^jalan/i.test(formatted)) {
+                    formatted = `Jl. ${formatted}`;
+                }
+                formatted = toTitleCase(formatted);
+                if (!results.includes(formatted)) {
+                    results.push(formatted);
+                }
+            }
+        });
+
+        osmAddressCache[cleanQuery.toLowerCase()] = results;
+        return results;
+    } catch (err) {
+        return [];
+    }
 }
 
 // Fungsi untuk menampilkan suggestions
@@ -226,7 +259,7 @@ function showSuggestions(inputElement, suggestions, type) {
             inputElement.value = suggestion;
             suggestionsDiv.classList.remove('active');
             generateLetter();
-            inputElement.focus();
+            focusNextFormField(inputElement);
         });
 
         suggestionsDiv.appendChild(item);
@@ -235,29 +268,32 @@ function showSuggestions(inputElement, suggestions, type) {
     suggestionsDiv.classList.add('active');
 }
 
-// Fungsi untuk menyimpan input user ke localStorage (SAAT DOWNLOAD)
+// Fungsi untuk menyimpan input user ke localStorage (disimpan rapi Title Case)
 function saveUserInputsToLocalStorage() {
-    const positionValue = document.getElementById('position').value.trim();
-    const addressValue = document.getElementById('address').value.trim();
+    const rawPosition = document.getElementById('position') ? document.getElementById('position').value.trim() : '';
+    const rawAddress = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
 
-    if (positionValue && !userEnteredPositions.includes(positionValue)) {
+    const positionValue = toTitleCase(rawPosition);
+    const addressValue = toTitleCase(rawAddress);
+
+    if (positionValue && positionValue.length >= 2 && !MASTER_POSITIONS.includes(positionValue) && !userEnteredPositions.includes(positionValue)) {
         userEnteredPositions.unshift(positionValue);
-        if (userEnteredPositions.length > 50) {
+        if (userEnteredPositions.length > 100) {
             userEnteredPositions.pop();
         }
         localStorage.setItem('userPositions', JSON.stringify(userEnteredPositions));
     }
 
-    if (addressValue && !userEnteredAddresses.includes(addressValue)) {
+    if (addressValue && addressValue.length >= 2 && !MASTER_ADDRESSES.includes(addressValue) && !userEnteredAddresses.includes(addressValue)) {
         userEnteredAddresses.unshift(addressValue);
-        if (userEnteredAddresses.length > 50) {
+        if (userEnteredAddresses.length > 100) {
             userEnteredAddresses.pop();
         }
         localStorage.setItem('userAddresses', JSON.stringify(userEnteredAddresses));
     }
 }
 
-// Setup autocomplete untuk input field
+// Setup autocomplete untuk input field (mendukung instant lokal + online fallback)
 function setupAutocomplete(inputId, type) {
     const input = document.getElementById(inputId);
     const wrapper = input.closest('.autocomplete-wrapper');
@@ -266,12 +302,29 @@ function setupAutocomplete(inputId, type) {
 
     let selectedIndex = -1;
     let suggestions = [];
+    let onlineSearchTimer = null;
 
     input.addEventListener('input', function () {
         const query = this.value;
+
+        // 1. Tampilkan instant dari daftar lokal Samarinda + riwayat user
         suggestions = getSuggestions(query, type);
         selectedIndex = -1;
         showSuggestions(this, suggestions, type);
+
+        // 2. Jika tipe alamat dan query minimal 3 karakter, cari tambahan dari OpenStreetMap Samarinda
+        if (type === 'address' && query.trim().length >= 3) {
+            clearTimeout(onlineSearchTimer);
+            onlineSearchTimer = setTimeout(async () => {
+                const onlineResults = await fetchSamarindaOnlineAddresses(query);
+                if (onlineResults.length > 0 && input.value.trim().length >= 3) {
+                    // Gabungkan data lokal + data online (tanpa duplikat)
+                    const combined = [...new Set([...suggestions, ...onlineResults])].slice(0, 12);
+                    suggestions = combined;
+                    showSuggestions(input, suggestions, type);
+                }
+            }, 350);
+        }
     });
 
     input.addEventListener('keydown', function (e) {
@@ -305,6 +358,7 @@ function setupAutocomplete(inputId, type) {
                     suggestionsDiv.classList.remove('active');
                     generateLetter();
                 }
+                focusNextFormField(input);
                 break;
 
             case 'Escape':
@@ -483,6 +537,9 @@ function generateLetter() {
 
     document.getElementById('letterPreview').innerHTML = letterHTML;
     generateEmailBody();
+    if (typeof syncPreviewHeight === 'function') {
+        syncPreviewHeight();
+    }
 }
 
 // Tab aktif untuk body email: 'general' atau 'it'
@@ -498,7 +555,7 @@ function generateEmailBody() {
     let emailText = '';
 
     if (!company && !position && !name) {
-        emailText = "Mulai mengisi formulir untuk melihat teks body email yang bisa Anda gunakan saat mengirim lamaran via email.";
+        emailText = "Mulai mengisi formulir untuk melihat teks pesan yang bisa Anda gunakan saat mengirim lamaran via WhatsApp maupun email.";
     } else {
         emailText = `Kepada Yth.\n`;
 
@@ -513,24 +570,30 @@ function generateEmailBody() {
         let introText = '';
 
         if (currentEmailTab === 'it') {
-            // Versi Spesifik IT & Digital (Portfolio Link)
-            introText = `Perkenalkan, saya ${name}, lulusan ${education}. Saya memiliki minat dan kemampuan di bidang teknologi digital khususnya programming, design, dan editing video. Bapak/Ibu dapat mengakses Portofolio saya pada link yang tertera (https://myporto-ten-sepia.vercel.app). Meskipun latar belakang saya berfokus pada bidang digital, saya terbiasa beradaptasi dan cepat mempelajari hal baru. `;
+            // Versi Spesifik IT & Web Developer (Portfolio Link)
+            introText = `Perkenalkan, saya ${name}, lulusan S1 Prodi Sistem Informasi Universitas Mulawarman dengan IPK 3,87. Memiliki minat yang kuat di bidang Web Development serta pengalaman langsung dalam pengembangan aplikasi web semasa perkuliahan. Pengalaman tersebut menjadi fondasi yang mengantarkan pada karier profesional sebagai web developer. `;
 
-            if (position) {
-                introText += `Melalui email ini, saya mengajukan lamaran kerja untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu pimpin.`;
-            } else {
-                introText += `Melalui email ini, saya mengajukan lamaran kerja pada bisnis/usaha yang Bapak/Ibu pimpin.`;
-            }
-        } else {
-            // Versi General: Profesional, lugas, formal, tanpa klaim klise kepribadian
             if (position && company) {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan untuk posisi ${position} di ${company}.`;
+                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan untuk posisi ${position} di ${company}. `;
             } else if (position) {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan untuk posisi ${position} pada perusahaan yang Bapak/Ibu pimpin.`;
+                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu jalankan. `;
             } else if (company) {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan di ${company}.`;
+                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan di ${company}. `;
             } else {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan pada perusahaan yang Bapak/Ibu pimpin.`;
+                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan pada bisnis/usaha yang Bapak/Ibu jalankan. `;
+            }
+
+            introText += `Sebagai bahan pertimbangan, Bapak/Ibu dapat meninjau Portofolio saya melalui tautan berikut: https://myporto-ten-sepia.vercel.app.`;
+        } else {
+            // Versi General: Lugas, santun, dan sesuai format yang diinginkan
+            if (position && company) {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan untuk posisi ${position} di ${company}.`;
+            } else if (position) {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu jalankan.`;
+            } else if (company) {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan di ${company}.`;
+            } else {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan pada bisnis/usaha yang Bapak/Ibu jalankan.`;
             }
         }
 
@@ -571,6 +634,7 @@ function copyEmailBody() {
 
     try {
         const successful = document.execCommand('copy');
+        saveUserInputsToLocalStorage();
         if (successful) {
             const copyBtn = document.getElementById('copyEmailBtn');
             const originalText = copyBtn.textContent;
@@ -907,19 +971,142 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     generateLetter();
+    syncPreviewHeight();
+
+    window.addEventListener('resize', syncPreviewHeight);
 
     let typingTimer;
     const doneTypingInterval = 300;
+
+    // Format otomatis Title Case saat mengetik atau saat berpindah input
+    setupAutoCapitalize();
 
     const textInputs = document.querySelectorAll('input[type="text"], input[type="tel"]');
     textInputs.forEach(input => {
         input.addEventListener('input', () => {
             clearTimeout(typingTimer);
-            typingTimer = setTimeout(generateLetter, doneTypingInterval);
+            typingTimer = setTimeout(() => {
+                generateLetter();
+                syncPreviewHeight();
+            }, doneTypingInterval);
         });
 
         input.addEventListener('keydown', () => {
             clearTimeout(typingTimer);
         });
     });
+
+    // Setup auto-focus pada awal buka halaman & navigasi Enter antar field
+    setupFormEnterNavigation();
 });
+
+// Fungsi untuk mengubah teks menjadi Title Case (Setiap Awal Kata Kapital)
+function toTitleCase(str) {
+    if (!str) return '';
+    return str.replace(/\b[a-z\u00C0-\u024F]/gi, function (char) {
+        return char.toUpperCase();
+    });
+}
+
+// Pasang auto-capitalize untuk input form (Company, Position, Address)
+function setupAutoCapitalize() {
+    const fieldsToCapitalize = ['company', 'position', 'address'];
+
+    fieldsToCapitalize.forEach(id => {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        // Saat user selesai mengetik (blur atau enter), format teks input menjadi Title Case rapi & simpan ke riwayat autocomplete
+        input.addEventListener('blur', function () {
+            if (this.value) {
+                const formatted = toTitleCase(this.value);
+                if (this.value !== formatted) {
+                    this.value = formatted;
+                    generateLetter();
+                }
+                saveUserInputsToLocalStorage();
+            }
+        });
+
+        // Saat sedang mengetik, ubah huruf pertama tiap kata secara real-time
+        input.addEventListener('input', function (e) {
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            const originalVal = this.value;
+            const formattedVal = toTitleCase(originalVal);
+
+            if (originalVal !== formattedVal) {
+                this.value = formattedVal;
+                // Pertahankan posisi kursor
+                this.setSelectionRange(start, end);
+            }
+        });
+    });
+}
+
+// Urutan field input formulir untuk navigasi Enter
+const FORM_FIELD_ORDER = ['company', 'position', 'address', 'source'];
+
+function setupFormEnterNavigation() {
+    const companyInput = document.getElementById('company');
+    if (companyInput) {
+        setTimeout(() => companyInput.focus(), 100);
+    }
+
+    FORM_FIELD_ORDER.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        el.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                // Jika input ini punya dropdown autocomplete yang sedang aktif, biarkan autocomplete handler yang mengurus
+                const wrapper = this.closest('.autocomplete-wrapper');
+                if (wrapper) {
+                    const suggestionsDiv = wrapper.querySelector('.autocomplete-suggestions');
+                    if (suggestionsDiv && suggestionsDiv.classList.contains('active')) {
+                        return;
+                    }
+                }
+
+                e.preventDefault();
+                focusNextFormField(this);
+            }
+        });
+    });
+}
+
+// Fungsi pindah ke input formulir berikutnya
+function focusNextFormField(currentElement) {
+    const currentIndex = FORM_FIELD_ORDER.indexOf(currentElement.id);
+    if (currentIndex >= 0 && currentIndex < FORM_FIELD_ORDER.length - 1) {
+        const nextId = FORM_FIELD_ORDER[currentIndex + 1];
+        const nextElement = document.getElementById(nextId);
+        if (nextElement) {
+            nextElement.focus();
+            if (nextElement.select && typeof nextElement.select === 'function') {
+                nextElement.select();
+            }
+        }
+    }
+}
+
+// Fungsi untuk memastikan preview surat sama tinggi dengan form dan scrollable di desktop
+function syncPreviewHeight() {
+    if (window.innerWidth > 992) {
+        const formContainer = document.querySelector('.form-container');
+        const previewContainer = document.querySelector('.preview-container');
+        if (formContainer && previewContainer) {
+            const formHeight = formContainer.offsetHeight;
+            if (formHeight > 0) {
+                previewContainer.style.height = `${formHeight}px`;
+                previewContainer.style.maxHeight = `${formHeight}px`;
+            }
+        }
+    } else {
+        const previewContainer = document.querySelector('.preview-container');
+        if (previewContainer) {
+            previewContainer.style.height = '';
+            previewContainer.style.maxHeight = '';
+        }
+    }
+}
