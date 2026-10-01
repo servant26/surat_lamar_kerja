@@ -117,13 +117,22 @@ let userEnteredAddresses = JSON.parse(localStorage.getItem('userAddresses') || '
 // Array untuk melacak urutan pencentangan
 let attachmentOrder = [];
 
+// Data pribadi tetap (otomatis)
+const PROFILE = {
+    name: "Ali Khatami",
+    ttl: "Tanah Grogot, 26 April 2003",
+    education: "S1 Universitas Mulawarman",
+    phone: "083813414319",
+    homeAddress: "Jl. Trisari Gg. Sinarsari RT 19",
+    city: "Samarinda"
+};
+
 // Get current date with city
 function getCurrentDateWithCity() {
     const now = new Date();
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = now.toLocaleDateString('id-ID', options);
-    const city = document.getElementById('city').value.trim() || "Samarinda";
-    return `${city}, ${formattedDate}`;
+    return `${PROFILE.city}, ${formattedDate}`;
 }
 
 // Format date for PDF
@@ -138,34 +147,34 @@ function getFormattedDate() {
 // Get form values
 function getFormValues() {
     return {
-        company: document.getElementById('company').value.trim(),
-        position: document.getElementById('position').value.trim(),
-        address: document.getElementById('address').value.trim(),
-        source: document.getElementById('source').value,
-        city: document.getElementById('city').value.trim() || "Samarinda",
-        name: document.getElementById('name').value.trim() || "Ali Khatami",
-        ttl: document.getElementById('ttl').value.trim() || "Tanah Grogot, 26 April 2003",
-        education: document.getElementById('education').value.trim() || "S1 Universitas Mulawarman",
-        phone: document.getElementById('phone').value.trim() || "083813414319",
-        homeAddress: document.getElementById('homeAddress').value.trim() || "Jl. Trisari Gg. Sinarsari RT 19"
+        company: (document.getElementById('company') ? document.getElementById('company').value : '').trim(),
+        position: (document.getElementById('position') ? document.getElementById('position').value : '').trim(),
+        address: (document.getElementById('address') ? document.getElementById('address').value : '').trim(),
+        source: document.getElementById('source') ? document.getElementById('source').value : 'Instagram',
+        city: PROFILE.city,
+        name: PROFILE.name,
+        ttl: PROFILE.ttl,
+        education: PROFILE.education,
+        phone: PROFILE.phone,
+        homeAddress: PROFILE.homeAddress
     };
 }
 
 // Get checked attachments in order of checking
 function getCheckedAttachments() {
     const attachments = [];
-    
+
     if (attachmentOrder.length === 0) {
         return attachments;
     }
-    
+
     attachmentOrder.forEach(checkboxId => {
         const checkbox = document.getElementById(checkboxId);
         if (checkbox && checkbox.checked) {
             attachments.push(checkbox.value);
         }
     });
-    
+
     return attachments;
 }
 
@@ -173,11 +182,11 @@ function getCheckedAttachments() {
 function getSuggestions(query, type) {
     query = query.toLowerCase();
     let suggestions = [];
-    
+
     // Gabungkan data master dengan data user
     let allData = [];
-    
-    switch(type) {
+
+    switch (type) {
         case 'position':
             allData = [...new Set([...MASTER_POSITIONS, ...userEnteredPositions])];
             break;
@@ -185,12 +194,12 @@ function getSuggestions(query, type) {
             allData = [...new Set([...MASTER_ADDRESSES, ...userEnteredAddresses])];
             break;
     }
-    
+
     // Filter data berdasarkan query
-    suggestions = allData.filter(item => 
+    suggestions = allData.filter(item =>
         item.toLowerCase().includes(query)
     ).slice(0, 10);
-    
+
     return suggestions;
 }
 
@@ -198,31 +207,31 @@ function getSuggestions(query, type) {
 function showSuggestions(inputElement, suggestions, type) {
     const wrapper = inputElement.closest('.autocomplete-wrapper');
     const suggestionsDiv = wrapper.querySelector('.autocomplete-suggestions');
-    
+
     if (!suggestionsDiv) return;
-    
+
     if (suggestions.length === 0 || inputElement.value.trim() === '') {
         suggestionsDiv.classList.remove('active');
         return;
     }
-    
+
     suggestionsDiv.innerHTML = '';
-    
+
     suggestions.forEach(suggestion => {
         const item = document.createElement('div');
         item.className = 'suggestion-item';
         item.textContent = suggestion;
-        
+
         item.addEventListener('click', () => {
             inputElement.value = suggestion;
             suggestionsDiv.classList.remove('active');
             generateLetter();
             inputElement.focus();
         });
-        
+
         suggestionsDiv.appendChild(item);
     });
-    
+
     suggestionsDiv.classList.add('active');
 }
 
@@ -230,7 +239,7 @@ function showSuggestions(inputElement, suggestions, type) {
 function saveUserInputsToLocalStorage() {
     const positionValue = document.getElementById('position').value.trim();
     const addressValue = document.getElementById('address').value.trim();
-    
+
     if (positionValue && !userEnteredPositions.includes(positionValue)) {
         userEnteredPositions.unshift(positionValue);
         if (userEnteredPositions.length > 50) {
@@ -238,7 +247,7 @@ function saveUserInputsToLocalStorage() {
         }
         localStorage.setItem('userPositions', JSON.stringify(userEnteredPositions));
     }
-    
+
     if (addressValue && !userEnteredAddresses.includes(addressValue)) {
         userEnteredAddresses.unshift(addressValue);
         if (userEnteredAddresses.length > 50) {
@@ -252,26 +261,26 @@ function saveUserInputsToLocalStorage() {
 function setupAutocomplete(inputId, type) {
     const input = document.getElementById(inputId);
     const wrapper = input.closest('.autocomplete-wrapper');
-    
+
     if (!input || !wrapper) return;
-    
+
     let selectedIndex = -1;
     let suggestions = [];
-    
-    input.addEventListener('input', function() {
+
+    input.addEventListener('input', function () {
         const query = this.value;
         suggestions = getSuggestions(query, type);
         selectedIndex = -1;
         showSuggestions(this, suggestions, type);
     });
-    
-    input.addEventListener('keydown', function(e) {
+
+    input.addEventListener('keydown', function (e) {
         const suggestionsDiv = wrapper.querySelector('.autocomplete-suggestions');
         const items = suggestionsDiv.querySelectorAll('.suggestion-item');
-        
+
         if (!suggestionsDiv.classList.contains('active')) return;
-        
-        switch(e.key) {
+
+        switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
                 if (selectedIndex < items.length - 1) {
@@ -279,7 +288,7 @@ function setupAutocomplete(inputId, type) {
                     updateSelection(items);
                 }
                 break;
-                
+
             case 'ArrowUp':
                 e.preventDefault();
                 if (selectedIndex > 0) {
@@ -287,7 +296,7 @@ function setupAutocomplete(inputId, type) {
                     updateSelection(items);
                 }
                 break;
-                
+
             case 'Enter':
                 e.preventDefault();
                 if (selectedIndex >= 0 && items[selectedIndex]) {
@@ -297,11 +306,11 @@ function setupAutocomplete(inputId, type) {
                     generateLetter();
                 }
                 break;
-                
+
             case 'Escape':
                 suggestionsDiv.classList.remove('active');
                 break;
-                
+
             case 'Tab':
                 if (selectedIndex >= 0 && items[selectedIndex]) {
                     e.preventDefault();
@@ -312,18 +321,18 @@ function setupAutocomplete(inputId, type) {
                 break;
         }
     });
-    
+
     function updateSelection(items) {
         items.forEach((item, index) => {
             item.classList.toggle('highlighted', index === selectedIndex);
         });
-        
+
         if (selectedIndex >= 0 && items[selectedIndex]) {
             items[selectedIndex].scrollIntoView({ block: 'nearest' });
         }
     }
-    
-    document.addEventListener('click', function(e) {
+
+    document.addEventListener('click', function (e) {
         if (!wrapper.contains(e.target)) {
             const suggestionsDiv = wrapper.querySelector('.autocomplete-suggestions');
             if (suggestionsDiv) {
@@ -331,8 +340,8 @@ function setupAutocomplete(inputId, type) {
             }
         }
     });
-    
-    input.addEventListener('blur', function() {
+
+    input.addEventListener('blur', function () {
         setTimeout(() => {
             const suggestionsDiv = wrapper.querySelector('.autocomplete-suggestions');
             if (suggestionsDiv) {
@@ -346,11 +355,11 @@ function setupAutocomplete(inputId, type) {
 function generateLetter() {
     const formValues = getFormValues();
     const attachments = getCheckedAttachments();
-    
+
     const { company, source, position, address, city, name, ttl, education, phone, homeAddress } = formValues;
-    
+
     let letterHTML = '';
-    
+
     if (!company && !position && !name) {
         letterHTML = '<p class="letter-instruction">Mulai mengisi formulir untuk melihat pratinjau surat lamaran kerja Anda.</p>';
     } else {
@@ -360,11 +369,11 @@ function generateLetter() {
                     <div class="letter-perihal">
                         <p>Perihal : Lamaran Pekerjaan</p>
         `;
-        
+
         if (attachments.length > 0) {
-            letterHTML += `<p>Lampiran : ${attachments.length} Lembar</p>`;
+            letterHTML += `<p>Lampiran : ${attachments.length} Berkas</p>`;
         }
-        
+
         letterHTML += `
                     </div>
                     <div class="letter-date">
@@ -375,16 +384,16 @@ function generateLetter() {
                 <div class="recipient">
                     <p>Kepada Yth.</p>
         `;
-        
+
         if (company) {
             letterHTML += `<p>Bapak/Ibu Pimpinan ${company}</p>`;
         } else {
-            letterHTML += `<p>Bapak/Ibu Pimpinan</p>`;
+            letterHTML += `<p>Bapak/Ibu Pimpinan Perusahaan</p>`;
         }
-        
+
         letterHTML += `
-                    <p>Di</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;${address || "Alamat"}</p>
+                    <p>di -</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;${address || "Tempat"}</p>
                 </div>
                 
                 <div class="salutation">
@@ -393,21 +402,21 @@ function generateLetter() {
                 
                 <div class="letter-body">
         `;
-        
+
         if (company) {
             if (position) {
-                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa ${company} sedang membutuhkan karyawan untuk mengisi posisi sebagai <span class="bold">${position}</span>. Berikut ini adalah data pribadi saya:</p>`;
+                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa ${company} sedang membutuhkan karyawan untuk mengisi posisi sebagai <span class="bold">${position}</span>. Berikut ini adalah data pribadi saya:</p>`;
             } else {
-                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa ${company} sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:</p>`;
+                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa ${company} sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:</p>`;
             }
         } else {
             if (position) {
-                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa perusahaan Anda sedang membutuhkan karyawan untuk mengisi posisi sebagai <span class="bold">${position}</span>. Berikut ini adalah data pribadi saya:</p>`;
+                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa perusahaan Anda sedang membutuhkan karyawan untuk mengisi posisi sebagai <span class="bold">${position}</span>. Berikut ini adalah data pribadi saya:</p>`;
             } else {
-                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa perusahaan Anda sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:</p>`;
+                letterHTML += `<p>Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa perusahaan Anda sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:</p>`;
             }
         }
-        
+
         letterHTML += `
                 </div>
                 
@@ -438,23 +447,27 @@ function generateLetter() {
                 
                 <div class="letter-body">
         `;
-        
+
         if (attachments.length > 0) {
             if (position) {
-                letterHTML += `<p>Dengan ini mengajukan permohonan kerja untuk menempati posisi sebagai <span class="bold">${position}</span> pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas-berkas pendukung:</p>`;
+                letterHTML += `<p>Dengan ini mengajukan permohonan kerja untuk menempati posisi sebagai <span class="bold">${position}</span> pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas pendukung:</p>`;
             } else {
-                letterHTML += `<p>Dengan ini mengajukan permohonan kerja pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas-berkas pendukung:</p>`;
+                letterHTML += `<p>Dengan ini mengajukan permohonan kerja pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas pendukung:</p>`;
             }
-            
-            letterHTML += `<ol class="attachment-list">`;
-            
-            attachments.forEach(item => {
-                letterHTML += `<li>${item}</li>`;
-            });
-            
-            letterHTML += `</ol>`;
+
+            if (attachments.length === 1) {
+                letterHTML += `<ul class="attachment-list" style="list-style-type: disc;">`;
+                letterHTML += `<li>${attachments[0]}</li>`;
+                letterHTML += `</ul>`;
+            } else {
+                letterHTML += `<ol class="attachment-list">`;
+                attachments.forEach(item => {
+                    letterHTML += `<li>${item}</li>`;
+                });
+                letterHTML += `</ol>`;
+            }
         }
-        
+
         letterHTML += `
                     <p>Demikian surat lamaran ini saya ajukan sebagai bahan pertimbangan. Atas perhatian Bapak/Ibu, saya ucapkan terima kasih.</p>
                 </div>
@@ -467,73 +480,95 @@ function generateLetter() {
             </div>
         `;
     }
-    
+
     document.getElementById('letterPreview').innerHTML = letterHTML;
     generateEmailBody();
 }
+
+// Tab aktif untuk body email: 'general' atau 'it'
+let currentEmailTab = 'general';
 
 // Generate email body
 function generateEmailBody() {
     const formValues = getFormValues();
     const attachments = getCheckedAttachments();
-    
-    const { company, position, name, education } = formValues;
-    
+
+    const { company, position, name, education, source } = formValues;
+
     let emailText = '';
-    
+
     if (!company && !position && !name) {
         emailText = "Mulai mengisi formulir untuk melihat teks body email yang bisa Anda gunakan saat mengirim lamaran via email.";
     } else {
         emailText = `Kepada Yth.\n`;
-        
+
         if (company) {
             emailText += `Bapak/Ibu Pimpinan ${company}\n\n`;
         } else {
             emailText += `Bapak/Ibu Pimpinan\n\n`;
         }
-        
+
         emailText += `Dengan hormat,\n\n`;
-        
-        let introText = `Perkenalkan, saya ${name}, lulusan ${education}. Saya memiliki minat dan kemampuan di bidang teknologi digital khususnya programming, design, dan editing video. Bapak/Ibu dapat mengakses Portofolio saya pada link yang tertera (https://myporto-ten-sepia.vercel.app). Meskipun latar belakang saya berfokus pada bidang digital, saya terbiasa beradaptasi dan cepat mempelajari hal baru. `;
-        
-        if (position) {
-            introText += `Melalui email ini, saya mengajukan lamaran kerja untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu pimpin.`;
+
+        let introText = '';
+
+        if (currentEmailTab === 'it') {
+            // Versi Spesifik IT & Digital (Portfolio Link)
+            introText = `Perkenalkan, saya ${name}, lulusan ${education}. Saya memiliki minat dan kemampuan di bidang teknologi digital khususnya programming, design, dan editing video. Bapak/Ibu dapat mengakses Portofolio saya pada link yang tertera (https://myporto-ten-sepia.vercel.app). Meskipun latar belakang saya berfokus pada bidang digital, saya terbiasa beradaptasi dan cepat mempelajari hal baru. `;
+
+            if (position) {
+                introText += `Melalui email ini, saya mengajukan lamaran kerja untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu pimpin.`;
+            } else {
+                introText += `Melalui email ini, saya mengajukan lamaran kerja pada bisnis/usaha yang Bapak/Ibu pimpin.`;
+            }
         } else {
-            introText += `Melalui email ini, saya mengajukan lamaran kerja pada bisnis/usaha yang Bapak/Ibu pimpin.`;
+            // Versi General: Profesional, lugas, formal, tanpa klaim klise kepribadian
+            if (position && company) {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan untuk posisi ${position} di ${company}.`;
+            } else if (position) {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan untuk posisi ${position} pada perusahaan yang Bapak/Ibu pimpin.`;
+            } else if (company) {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan di ${company}.`;
+            } else {
+                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya peroleh melalui ${source}, bersama email ini saya bermaksud mengajukan lamaran pekerjaan pada perusahaan yang Bapak/Ibu pimpin.`;
+            }
         }
-        
+
         emailText += introText;
-        
+
         if (attachments.length > 0) {
-            emailText += `\n\nSebagai bahan pertimbangan, saya juga melampirkan beberapa berkas tambahan seperti:\n`;
-            
-            attachments.forEach((item, index) => {
-                emailText += `${index + 1}. ${item}\n`;
-            });
-            
-            emailText += `\nDemikian lamaran ini saya ajukan, atas perhatiannya saya ucapkan terimakasih.\n\n`;
+            if (attachments.length === 1) {
+                emailText += `\n\nSebagai bahan pertimbangan, saya juga melampirkan berkas yaitu:\n• ${attachments[0]}\n`;
+            } else {
+                emailText += `\n\nSebagai bahan pertimbangan, saya juga melampirkan berkas pendukung sebagai berikut:\n`;
+                attachments.forEach((item, index) => {
+                    emailText += `${index + 1}. ${item}\n`;
+                });
+            }
+
+            emailText += `\nDemikian lamaran ini saya ajukan, atas perhatian dan kesempatan yang Bapak/Ibu berikan saya ucapkan terima kasih.\n\n`;
         } else {
-            emailText += `\n\nDemikian lamaran ini saya ajukan, atas perhatiannya saya ucapkan terimakasih.\n\n`;
+            emailText += `\n\nDemikian lamaran ini saya ajukan, atas perhatian dan kesempatan yang Bapak/Ibu berikan saya ucapkan terima kasih.\n\n`;
         }
-        
+
         emailText += `Hormat saya,\n`;
         emailText += `${name}`;
     }
-    
+
     document.getElementById('emailBody').textContent = emailText;
 }
 
 // Copy email body to clipboard
 function copyEmailBody() {
     const emailText = document.getElementById('emailBody').textContent;
-    
+
     const textarea = document.createElement('textarea');
     textarea.value = emailText;
     document.body.appendChild(textarea);
-    
+
     textarea.select();
     textarea.setSelectionRange(0, 99999);
-    
+
     try {
         const successful = document.execCommand('copy');
         if (successful) {
@@ -541,7 +576,7 @@ function copyEmailBody() {
             const originalText = copyBtn.textContent;
             copyBtn.textContent = 'Teks Disalin!';
             copyBtn.style.backgroundColor = '#2ecc71';
-            
+
             setTimeout(() => {
                 copyBtn.textContent = originalText;
                 copyBtn.style.backgroundColor = '#3498db';
@@ -551,241 +586,257 @@ function copyEmailBody() {
         console.error('Gagal menyalin teks: ', err);
         alert('Gagal menyalin teks ke clipboard');
     }
-    
+
     document.body.removeChild(textarea);
 }
 
-// PERBAIKAN: Download as PDF dengan format penamaan baru
 function downloadPDF() {
-    const letterPreview = document.getElementById('letterPreview');
-    if (letterPreview.querySelector('.letter-instruction')) {
-        alert("Harap isi minimal nama lengkap sebelum mengunduh PDF");
+    const formValues = getFormValues();
+    if (!formValues.position && !formValues.company) {
+        alert("Harap isi posisi atau nama perusahaan terlebih dahulu sebelum mengunduh PDF");
         return;
     }
-    
+
     // SIMPAN DATA PENGUNJUNG KE LOCALSTORAGE
     saveUserInputsToLocalStorage();
-    
-    const formValues = getFormValues();
+
     const attachments = getCheckedAttachments();
-    
     const { company, source, position, address, city, name, ttl, education, phone, homeAddress } = formValues;
-    
+
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    const marginLeft = 20;
-    const marginRight = 20;
-    const marginTop = 20;
-    const contentWidth = 210 - marginLeft - marginRight;
+    const doc = new jsPDF({
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait'
+    });
+
+    // Standar Margin Dokumen Word (25mm kiri, kanan, atas)
+    const marginLeft = 25;
+    const marginRight = 25;
+    const marginTop = 25;
+    const pageWidth = 210;
+    const contentWidth = pageWidth - marginLeft - marginRight; // 160mm
+    const rightMarginX = pageWidth - marginRight; // 185mm
+
     let yPos = marginTop;
-    
-    doc.setFont("times");
+
+    doc.setFont("times", "normal");
     doc.setFontSize(12);
-    
-    const currentDateWithCity = getCurrentDateWithCity();
-    const formattedDate = getFormattedDate();
-    
-    function checkNewPage(additionalHeight) {
-        if (yPos + additionalHeight > 280) {
+
+    const lineHeight = 6.2; // Rasio line spacing 1.15-1.2 khas Word
+
+    function checkNewPage(neededHeight) {
+        if (yPos + neededHeight > 275) {
             doc.addPage();
             yPos = marginTop;
             return true;
         }
         return false;
     }
-    
-    // Header dengan perihal dan tanggal sejajar
-    doc.setFontSize(12);
-    doc.setFont("times", "normal");
-    
-    // Perihal (kiri atas)
-    doc.text("Perihal : Lamaran Pekerjaan", marginLeft, yPos);
-    
-    // Lampiran di bawah perihal (jika ada)
-    if (attachments.length > 0) {
-        doc.text(`Lampiran : ${attachments.length} Lembar`, marginLeft, yPos + 6);
+
+    // Algoritma Justify Sejati (rata kiri-kanan seperti MS Word)
+    function printJustifiedText(text, x, width, lineH) {
+        const lines = doc.splitTextToSize(text, width);
+        for (let i = 0; i < lines.length; i++) {
+            checkNewPage(lineH);
+            const line = lines[i].trim();
+            const isLastLine = (i === lines.length - 1);
+
+            if (isLastLine) {
+                doc.text(line, x, yPos, { align: 'left' });
+            } else {
+                const words = line.split(/\s+/);
+                if (words.length <= 1) {
+                    doc.text(line, x, yPos, { align: 'left' });
+                } else {
+                    const totalWordsWidth = words.reduce((sum, word) => sum + doc.getTextWidth(word), 0);
+                    const totalSpaceWidth = width - totalWordsWidth;
+                    const spaceBetweenWords = totalSpaceWidth / (words.length - 1);
+                    const normalSpace = doc.getTextWidth(' ');
+
+                    if (spaceBetweenWords > normalSpace * 3.8) {
+                        doc.text(line, x, yPos, { align: 'left' });
+                    } else {
+                        let curX = x;
+                        for (let w = 0; w < words.length; w++) {
+                            doc.text(words[w], curX, yPos);
+                            curX += doc.getTextWidth(words[w]) + spaceBetweenWords;
+                        }
+                    }
+                }
+            }
+            yPos += lineH;
+        }
     }
-    
-    // Tanggal (kanan atas) - diposisikan sama dengan perihal
-    const dateX = 208 - marginRight;
-    doc.text(currentDateWithCity, dateX, yPos, { align: "right" });
-    
+
+    const currentDateWithCity = getCurrentDateWithCity();
+
+    // 1. Header: Perihal & Lampiran sejajar dengan Tanggal di margin kanan
+    doc.text("Perihal    : Lamaran Pekerjaan", marginLeft, yPos);
+    doc.text(currentDateWithCity, rightMarginX, yPos, { align: "right" });
+
     if (attachments.length > 0) {
-        yPos += 12;
-    } else {
-        yPos += 6;
+        yPos += lineHeight;
+        doc.text(`Lampiran : ${attachments.length} Berkas`, marginLeft, yPos);
     }
-    
-    // Penerima surat
-    checkNewPage(20);
-    yPos += 6;
+
+    yPos += lineHeight * 2;
+
+    // 2. Tujuan Surat (Format surat resmi standar)
+    checkNewPage(25);
     doc.text("Kepada Yth.", marginLeft, yPos);
-    yPos += 6;
-    
+    yPos += lineHeight;
+
     if (company) {
         doc.text(`Bapak/Ibu Pimpinan ${company}`, marginLeft, yPos);
     } else {
-        doc.text("Bapak/Ibu Pimpinan", marginLeft, yPos);
+        doc.text("Bapak/Ibu Pimpinan Perusahaan", marginLeft, yPos);
     }
-    yPos += 6;
-    
-    doc.text("Di", marginLeft, yPos);
-    yPos += 6;
-    
-    // Alamat dengan indentasi
-    const addressText = `    ${address || "Alamat"}`;
-    doc.text(addressText, marginLeft, yPos);
-    yPos += 12;
-    
-    // Salam pembuka
-    checkNewPage(10);
+    yPos += lineHeight;
+
+    doc.text("di -", marginLeft, yPos);
+    yPos += lineHeight;
+
+    const destAddress = address || "Tempat";
+    doc.text(`   ${destAddress}`, marginLeft, yPos);
+    yPos += lineHeight * 2;
+
+    // 3. Salam Pembuka
+    checkNewPage(15);
     doc.text("Dengan hormat,", marginLeft, yPos);
-    yPos += 10;
-    
-    // Isi surat dengan justify
+    yPos += lineHeight * 1.5;
+
+    // 4. Paragraf Pembuka (Kalimat Awal Asli)
     let openingText = "";
-    
     if (company) {
         if (position) {
-            openingText = `Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa ${company} sedang membutuhkan karyawan untuk mengisi posisi sebagai ${position}. Berikut ini adalah data pribadi saya:`;
+            openingText = `Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa ${company} sedang membutuhkan karyawan untuk mengisi posisi sebagai ${position}. Berikut ini adalah data pribadi saya:`;
         } else {
-            openingText = `Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa ${company} sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:`;
+            openingText = `Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa ${company} sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:`;
         }
     } else {
         if (position) {
-            openingText = `Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa perusahaan Anda sedang membutuhkan karyawan untuk mengisi posisi sebagai ${position}. Berikut ini adalah data pribadi saya:`;
+            openingText = `Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa perusahaan Anda sedang membutuhkan karyawan untuk mengisi posisi sebagai ${position}. Berikut ini adalah data pribadi saya:`;
         } else {
-            openingText = `Berdasarkan informasi yang saya dapatkan melalui ${source}, saya mendapati bahwa perusahaan Anda sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:`;
+            openingText = `Berdasarkan informasi yang saya dapatkan melalui platform ${source}, saya mendapati bahwa perusahaan Anda sedang membuka lowongan kerja. Berikut ini adalah data pribadi saya:`;
         }
     }
-    
-    // Gunakan justify dengan splitTextToSize
-    const splitOpeningText = doc.splitTextToSize(openingText, contentWidth);
-    splitOpeningText.forEach(line => {
-        checkNewPage(6);
-        doc.text(line, marginLeft, yPos, { align: "justify" });
-        yPos += 6;
-    });
-    
-    yPos += 6;
-    
-    // Data pribadi dengan tabel sederhana
-    checkNewPage(30);
-    const labelWidth = 60;
-    
-    doc.text("Nama Lengkap", marginLeft, yPos);
-    doc.text(`: ${name}`, marginLeft + labelWidth, yPos);
-    yPos += 7;
-    
-    doc.text("Tempat, Tanggal Lahir", marginLeft, yPos);
-    doc.text(`: ${ttl}`, marginLeft + labelWidth, yPos);
-    yPos += 7;
-    
-    doc.text("Pendidikan Terakhir", marginLeft, yPos);
-    doc.text(`: ${education}`, marginLeft + labelWidth, yPos);
-    yPos += 7;
-    
-    doc.text("No. Telepon", marginLeft, yPos);
-    doc.text(`: ${phone}`, marginLeft + labelWidth, yPos);
-    yPos += 7;
-    
-    doc.text("Alamat", marginLeft, yPos);
-    doc.text(`: ${homeAddress}`, marginLeft + labelWidth, yPos);
-    yPos += 12;
-    
-    // Lampiran jika ada
-    if (attachments.length > 0) {
-        checkNewPage(18);
+
+    printJustifiedText(openingText, marginLeft, contentWidth, lineHeight);
+    yPos += lineHeight * 0.6;
+
+    // 5. Data Pribadi (Format Tabel Titik Dua Sejajar Rapih Word)
+    checkNewPage(45);
+    const col1X = marginLeft + 6;
+    const colonX = marginLeft + 54;
+    const col2X = marginLeft + 58;
+    const col2Width = rightMarginX - col2X;
+
+    const personalData = [
+        { label: "Nama Lengkap", value: name },
+        { label: "Tempat, Tanggal Lahir", value: ttl },
+        { label: "Pendidikan Terakhir", value: education },
+        { label: "No. Telepon", value: phone },
+        { label: "Alamat", value: homeAddress }
+    ];
+
+    personalData.forEach(item => {
+        checkNewPage(lineHeight);
+        doc.text(item.label, col1X, yPos);
+        doc.text(":", colonX, yPos);
         
+        const splitVal = doc.splitTextToSize(item.value, col2Width);
+        doc.text(splitVal[0], col2X, yPos);
+        yPos += lineHeight;
+
+        for (let s = 1; s < splitVal.length; s++) {
+            checkNewPage(lineHeight);
+            doc.text(splitVal[s], col2X, yPos);
+            yPos += lineHeight;
+        }
+    });
+
+    yPos += lineHeight * 0.8;
+
+    // 6. Paragraf Berkas Lampiran (Kalimat Awal Asli)
+    if (attachments.length > 0) {
+        checkNewPage(25);
         let lampiranText = "";
         if (position) {
-            lampiranText = `Dengan ini mengajukan permohonan kerja untuk menempati posisi sebagai ${position} pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas-berkas pendukung:`;
+            lampiranText = `Dengan ini mengajukan permohonan kerja untuk menempati posisi sebagai ${position} pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas pendukung:`;
         } else {
-            lampiranText = `Dengan ini mengajukan permohonan kerja pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas-berkas pendukung:`;
+            lampiranText = `Dengan ini mengajukan permohonan kerja pada bisnis/usaha yang Bapak/Ibu pimpin, sebagai bahan pertimbangan berikut saya lampirkan berkas pendukung:`;
         }
-        
-        const splitLampiranText = doc.splitTextToSize(lampiranText, contentWidth);
-        splitLampiranText.forEach(line => {
-            checkNewPage(6);
-            doc.text(line, marginLeft, yPos, { align: "justify" });
-            yPos += 6;
-        });
-        
-        yPos += 4;
-        
-        // Daftar lampiran
-        attachments.forEach((item, index) => {
-            checkNewPage(7);
-            doc.text(`${index + 1}. ${item}`, marginLeft + 5, yPos);
-            yPos += 7;
-        });
-        
-        yPos += 6;
+
+        printJustifiedText(lampiranText, marginLeft, contentWidth, lineHeight);
+        yPos += lineHeight * 0.4;
+
+        // Daftar Lampiran
+        const indentList = marginLeft + 8;
+        if (attachments.length === 1) {
+            checkNewPage(lineHeight);
+            doc.text(`\u2022   ${attachments[0]}`, indentList, yPos);
+            yPos += lineHeight * 1.4;
+        } else {
+            attachments.forEach((item, index) => {
+                checkNewPage(lineHeight);
+                doc.text(`${index + 1}.  ${item}`, indentList, yPos);
+                yPos += lineHeight;
+            });
+            yPos += lineHeight * 0.5;
+        }
     }
-    
-    // Penutup dengan justify
-    checkNewPage(18);
+
+    // 7. Paragraf Penutup (Kalimat Awal Asli)
+    checkNewPage(20);
     const closingText = "Demikian surat lamaran ini saya ajukan sebagai bahan pertimbangan. Atas perhatian Bapak/Ibu, saya ucapkan terima kasih.";
-    
-    const splitClosingText = doc.splitTextToSize(closingText, contentWidth);
-    splitClosingText.forEach(line => {
-        checkNewPage(6);
-        doc.text(line, marginLeft, yPos, { align: "justify" });
-        yPos += 6;
-    });
-    
-    // Tanda tangan di pojok kanan
-    yPos += 20;
+    printJustifiedText(closingText, marginLeft, contentWidth, lineHeight);
+
+    // 8. Tanda Tangan (Blok Kanan Bawah Seimbang)
+    yPos += lineHeight * 2;
     checkNewPage(35);
-    
-    const ttdX = 185; // Posisi kanan
-    doc.text("Hormat saya,", ttdX, yPos, { align: "right" });
-    doc.text(name, ttdX, yPos + 20, { align: "right" });
-    
-    // PERBAIKAN: Format penamaan file baru - Surat_Lamar_NamaBisnisUsaha
-    let companyNameForFilename = company || "Perusahaan";
-    
+
+    const signX = rightMarginX - 25; // Area blok kanan rapi
+    doc.text("Hormat saya,", signX, yPos, { align: "center" });
+
+    yPos += 24; // Ruang tanda tangan ~2.4 cm
+    doc.text(name, signX, yPos, { align: "center" });
+
+    // Format penamaan file hasil download: Generator_Page_NamaBisnisUsaha.pdf
+    let companyNameForFilename = company || "Document";
+
     // Bersihkan nama perusahaan untuk nama file
     let cleanCompanyName = companyNameForFilename
         .replace(/[^a-zA-Z0-9\s]/g, '') // Hapus karakter khusus
         .replace(/\s+/g, '_')           // Ganti spasi dengan underscore
         .substring(0, 50);              // Batasi panjang nama
-    
-    // Jika nama perusahaan kosong, gunakan "Perusahaan"
+
+    // Jika nama perusahaan kosong, gunakan "Document"
     if (!cleanCompanyName || cleanCompanyName.trim() === '') {
-        cleanCompanyName = "Perusahaan";
+        cleanCompanyName = "Document";
     }
-    
-    // Format nama file: Surat_Lamar_NamaBisnisUsaha.pdf
-    const filename = `Surat_Lamar_${cleanCompanyName}.pdf`;
-    
+
+    // Format nama file: Generator_Page_NamaBisnisUsaha.pdf
+    const filename = `Generator_Page_${cleanCompanyName}.pdf`;
+
     doc.save(filename);
 }
 
-// Reset form
+// Reset form: kembalikan ke kondisi awal (input kosong, preview tetap tampil)
 function resetForm() {
     document.getElementById('company').value = '';
     document.getElementById('position').value = '';
     document.getElementById('address').value = '';
     document.getElementById('source').value = 'Instagram';
-    document.getElementById('city').value = 'Samarinda';
-    document.getElementById('name').value = 'Ali Khatami';
-    document.getElementById('ttl').value = 'Tanah Grogot, 26 April 2003';
-    document.getElementById('education').value = 'S1 Universitas Mulawarman';
-    document.getElementById('phone').value = '083813414319';
-    document.getElementById('homeAddress').value = 'Jl. Trisari Gg. Sinarsari RT 19';
-    
+
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false;
     });
-    
+
     attachmentOrder = [];
-    
-    document.getElementById('letterPreview').innerHTML = 
-        '<p class="letter-instruction">Mulai mengisi formulir untuk melihat pratinjau surat lamaran kerja Anda.</p>';
-    
-    document.getElementById('emailBody').textContent = "Mulai mengisi formulir untuk melihat teks body email yang bisa Anda gunakan saat mengirim lamaran via email.";
+
+    // Regenerate letter preview & email body seperti saat halaman pertama kali dimuat
+    generateLetter();
 }
 
 // Setup autocomplete untuk semua field
@@ -795,12 +846,11 @@ function setupAllAutocomplete() {
 }
 
 // Add event listeners for live update
-// Add event listeners for live update
 function setupLiveUpdate() {
     const desktopElements = [
-        'company', 'position', 'address', 'source', 'city', 'name', 'ttl', 'education', 'phone', 'homeAddress'
+        'company', 'position', 'address', 'source'
     ];
-    
+
     desktopElements.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
@@ -808,9 +858,9 @@ function setupLiveUpdate() {
             element.addEventListener('change', generateLetter);
         }
     });
-    
+
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
+        checkbox.addEventListener('change', function () {
             if (this.checked) {
                 if (!attachmentOrder.includes(this.id)) {
                     attachmentOrder.push(this.id);
@@ -821,7 +871,7 @@ function setupLiveUpdate() {
                     attachmentOrder.splice(index, 1);
                 }
             }
-            
+
             generateLetter();
         });
     });
@@ -831,23 +881,43 @@ function setupLiveUpdate() {
 window.addEventListener('DOMContentLoaded', () => {
     setupAllAutocomplete();
     setupLiveUpdate();
-    
+
     document.getElementById('downloadBtn').addEventListener('click', downloadPDF);
     document.getElementById('resetBtn').addEventListener('click', resetForm);
     document.getElementById('copyEmailBtn').addEventListener('click', copyEmailBody);
-    
+
+    // Event listener switch tab email (General vs IT)
+    const tabGeneralBtn = document.getElementById('tabGeneralBtn');
+    const tabItBtn = document.getElementById('tabItBtn');
+
+    if (tabGeneralBtn && tabItBtn) {
+        tabGeneralBtn.addEventListener('click', () => {
+            currentEmailTab = 'general';
+            tabGeneralBtn.classList.add('active');
+            tabItBtn.classList.remove('active');
+            generateEmailBody();
+        });
+
+        tabItBtn.addEventListener('click', () => {
+            currentEmailTab = 'it';
+            tabItBtn.classList.add('active');
+            tabGeneralBtn.classList.remove('active');
+            generateEmailBody();
+        });
+    }
+
     generateLetter();
-    
+
     let typingTimer;
     const doneTypingInterval = 300;
-    
+
     const textInputs = document.querySelectorAll('input[type="text"], input[type="tel"]');
     textInputs.forEach(input => {
         input.addEventListener('input', () => {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(generateLetter, doneTypingInterval);
         });
-        
+
         input.addEventListener('keydown', () => {
             clearTimeout(typingTimer);
         });

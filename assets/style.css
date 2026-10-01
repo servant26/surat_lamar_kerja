@@ -40,6 +40,7 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    align-items: stretch;
 }
 
 .email-section {
@@ -49,23 +50,50 @@ h1 {
 
 .form-container {
     background-color: white;
-    padding: 20px;
+    padding: 32px 35px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: fit-content;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
 .preview-container {
     background-color: white;
-    padding: 20px;
+    padding: 48px 55px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: fit-content;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar untuk panel yang lebih tinggi */
+.form-container::-webkit-scrollbar,
+.preview-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-container::-webkit-scrollbar-track,
+.preview-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb,
+.preview-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover,
+.preview-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 h2 {
     color: #2c3e50;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     padding-bottom: 8px;
     border-bottom: 2px solid #3498db;
     font-size: 18px;
@@ -78,12 +106,12 @@ h3 {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: bold;
     color: #2c3e50;
     font-size: 14px;
@@ -93,9 +121,9 @@ input[type="text"],
 input[type="tel"],
 select {
     width: 100%;
-    padding: 8px;
+    padding: 10px 12px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 14px;
     transition: border-color 0.3s;
 }
@@ -161,10 +189,14 @@ button {
 .letter-preview {
     font-family: 'Times New Roman', Times, serif;
     font-size: 12pt;
-    line-height: 1.5;
+    line-height: 1.6;
     color: #000;
-    min-height: 300px;
+    min-height: 350px;
     width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
 }
 
 /* Header surat dengan perihal dan tanggal sejajar */
@@ -266,7 +298,7 @@ button {
 
 /* Signature di pojok kanan */
 .signature {
-    margin-top: 80px;
+    margin-top: 45px;
     text-align: right;
     width: 100%;
 }
@@ -308,6 +340,49 @@ button {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
+}
+
+.email-header-tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.email-header-tabs h3 {
+    margin: 0;
+}
+
+.email-tabs {
+    display: inline-flex;
+    background-color: #e2e8f0;
+    border-radius: 6px;
+    padding: 3px;
+    gap: 3px;
+}
+
+.email-tab-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.email-tab-btn:hover {
+    color: #1a202c;
+}
+
+.email-tab-btn.active {
+    background-color: white;
+    color: #2b6cb0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .email-body {
