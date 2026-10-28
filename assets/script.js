@@ -545,6 +545,28 @@ function generateLetter() {
 // Tab aktif untuk body email: 'general' atau 'it'
 let currentEmailTab = 'general';
 
+// Fungsi untuk mendapatkan sapaan waktu dinamis sesuai jam saat ini
+function getDynamicTimeGreeting() {
+    const hour = new Date().getHours();
+    if (hour >= 3 && hour < 10) {
+        return 'pagi';
+    } else if (hour >= 10 && hour < 16) {
+        return 'siang';
+    } else if (hour >= 16 && hour < 18) {
+        return 'sore';
+    } else {
+        return 'malam';
+    }
+}
+
+// Fungsi untuk memformat daftar berkas sesuai kaidah bahasa Indonesia (A, A dan B, atau A, B, dan C)
+function formatAttachmentList(items) {
+    if (!items || items.length === 0) return '';
+    if (items.length === 1) return items[0];
+    if (items.length === 2) return `${items[0]} dan ${items[1]}`;
+    return `${items.slice(0, -1).join(', ')}, dan ${items[items.length - 1]}`;
+}
+
 // Generate email body
 function generateEmailBody() {
     const formValues = getFormValues();
@@ -557,65 +579,40 @@ function generateEmailBody() {
     if (!company && !position && !name) {
         emailText = "Mulai mengisi formulir untuk melihat teks pesan yang bisa Anda gunakan saat mengirim lamaran via WhatsApp maupun email.";
     } else {
-        emailText = `Kepada Yth.\n`;
+        const timeGreeting = getDynamicTimeGreeting();
+        let targetText = '';
 
-        if (company) {
-            emailText += `Bapak/Ibu Pimpinan ${company}\n\n`;
+        if (position && company) {
+            targetText = `untuk posisi ${position} di ${company}`;
+        } else if (position) {
+            targetText = `untuk posisi ${position} di tempat Bapak/Ibu`;
+        } else if (company) {
+            targetText = `di ${company}`;
         } else {
-            emailText += `Bapak/Ibu Pimpinan\n\n`;
+            targetText = `di tempat Bapak/Ibu`;
         }
-
-        emailText += `Dengan hormat,\n\n`;
-
-        let introText = '';
 
         if (currentEmailTab === 'it') {
-            // Versi Spesifik IT & Web Developer (Portfolio Link)
-            introText = `Perkenalkan, saya ${name}, lulusan S1 Prodi Sistem Informasi Universitas Mulawarman dengan IPK 3,87. Memiliki minat yang kuat di bidang Web Development serta pengalaman langsung dalam pengembangan aplikasi web semasa perkuliahan. Pengalaman tersebut menjadi fondasi yang mengantarkan pada karier profesional sebagai web developer. `;
+            // Versi Spesifik IT & Digital (Ringkas, on point, santai & sopan + Portfolio Link)
+            emailText = `Assalamu'alaikum, selamat ${timeGreeting} Bapak/Ibu.\n\nPerkenalkan saya ${name}, lulusan ${education} (IPK 3,87) yang berpengalaman di bidang Web Development. Berdasarkan informasi lowongan kerja yang saya terima, saya bermaksud melamar pekerjaan ${targetText}. `;
 
-            if (position && company) {
-                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan untuk posisi ${position} di ${company}. `;
-            } else if (position) {
-                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu jalankan. `;
-            } else if (company) {
-                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan di ${company}. `;
+            if (attachments.length > 0) {
+                const berkasList = formatAttachmentList(attachments);
+                emailText += `Adapun berkas pendukung yang saya lampirkan meliputi ${berkasList} beserta portofolio saya pada tautan: https://myporto-ten-sepia.vercel.app. Besar harapan saya untuk dapat bergabung di tempat Bapak/Ibu. Terima kasih atas waktu dan perhatiannya.`;
             } else {
-                introText += `Melalui pesan ini, saya hendak mengajukan lamaran pekerjaan pada bisnis/usaha yang Bapak/Ibu jalankan. `;
+                emailText += `Portofolio saya dapat dilihat pada tautan: https://myporto-ten-sepia.vercel.app. Besar harapan saya untuk dapat bergabung di tempat Bapak/Ibu. Terima kasih atas waktu dan perhatiannya.`;
             }
-
-            introText += `Sebagai bahan pertimbangan, Bapak/Ibu dapat meninjau Portofolio saya melalui tautan berikut: https://myporto-ten-sepia.vercel.app.`;
         } else {
-            // Versi General: Lugas, santun, dan sesuai format yang diinginkan
-            if (position && company) {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan untuk posisi ${position} di ${company}.`;
-            } else if (position) {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan untuk posisi ${position} pada bisnis/usaha yang Bapak/Ibu jalankan.`;
-            } else if (company) {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan di ${company}.`;
+            // Versi General (Non-IT): Ringkas, on point, menonjolkan komunikasi & kerjasama tim
+            emailText = `Assalamu'alaikum, selamat ${timeGreeting} Bapak/Ibu.\n\nPerkenalkan saya ${name}, lulusan ${education}. Berdasarkan informasi lowongan kerja yang saya terima, saya bermaksud melamar pekerjaan ${targetText}. Meskipun berlatar belakang IT, saya memiliki pengalaman yang baik dalam komunikasi, pelayanan, serta kerjasama tim, dan cepat beradaptasi. `;
+
+            if (attachments.length > 0) {
+                const berkasList = formatAttachmentList(attachments);
+                emailText += `Adapun berkas pendukung yang saya lampirkan meliputi ${berkasList}. Besar harapan saya untuk dapat bergabung di tempat Bapak/Ibu. Terima kasih atas waktu dan perhatiannya.`;
             } else {
-                introText = `Perkenalkan, saya ${name}, lulusan ${education}. Sehubungan dengan informasi lowongan pekerjaan yang saya dapatkan, dengan ini saya mengajukan lamaran pekerjaan pada bisnis/usaha yang Bapak/Ibu jalankan.`;
+                emailText += `Besar harapan saya untuk dapat bergabung di tempat Bapak/Ibu. Terima kasih atas waktu dan perhatiannya.`;
             }
         }
-
-        emailText += introText;
-
-        if (attachments.length > 0) {
-            if (attachments.length === 1) {
-                emailText += `\n\nSebagai bahan pertimbangan, saya juga melampirkan berkas yaitu:\n• ${attachments[0]}\n`;
-            } else {
-                emailText += `\n\nSebagai bahan pertimbangan, saya juga melampirkan berkas pendukung sebagai berikut:\n`;
-                attachments.forEach((item, index) => {
-                    emailText += `${index + 1}. ${item}\n`;
-                });
-            }
-
-            emailText += `\nDemikian lamaran ini saya ajukan, atas perhatian dan kesempatan yang Bapak/Ibu berikan saya ucapkan terima kasih.\n\n`;
-        } else {
-            emailText += `\n\nDemikian lamaran ini saya ajukan, atas perhatian dan kesempatan yang Bapak/Ibu berikan saya ucapkan terima kasih.\n\n`;
-        }
-
-        emailText += `Hormat saya,\n`;
-        emailText += `${name}`;
     }
 
     document.getElementById('emailBody').textContent = emailText;
@@ -866,22 +863,23 @@ function downloadPDF() {
     yPos += 24; // Ruang tanda tangan ~2.4 cm
     doc.text(name, signX, yPos, { align: "center" });
 
-    // Format penamaan file hasil download: Generator_Page_NamaBisnisUsaha.pdf
-    let companyNameForFilename = company || "Document";
+    // Format penamaan file hasil download: Surat_Lamar_Nama_Perusahaan.pdf
+    let companyNameForFilename = company || "Perusahaan";
 
     // Bersihkan nama perusahaan untuk nama file
     let cleanCompanyName = companyNameForFilename
         .replace(/[^a-zA-Z0-9\s]/g, '') // Hapus karakter khusus
+        .trim()
         .replace(/\s+/g, '_')           // Ganti spasi dengan underscore
         .substring(0, 50);              // Batasi panjang nama
 
-    // Jika nama perusahaan kosong, gunakan "Document"
+    // Jika nama perusahaan kosong, gunakan "Perusahaan"
     if (!cleanCompanyName || cleanCompanyName.trim() === '') {
-        cleanCompanyName = "Document";
+        cleanCompanyName = "Perusahaan";
     }
 
-    // Format nama file: Generator_Page_NamaBisnisUsaha.pdf
-    const filename = `Generator_Page_${cleanCompanyName}.pdf`;
+    // Format nama file: Surat_Lamar_Nama_Perusahaan.pdf
+    const filename = `Surat_Lamar_${cleanCompanyName}.pdf`;
 
     doc.save(filename);
 }
@@ -969,6 +967,9 @@ window.addEventListener('DOMContentLoaded', () => {
             generateEmailBody();
         });
     }
+
+    // Setup toggle Pratinjau Surat dengan status permanen (localStorage), default: hide (false)
+    setupPreviewToggle();
 
     generateLetter();
     syncPreviewHeight();
@@ -1090,8 +1091,45 @@ function focusNextFormField(currentElement) {
     }
 }
 
+// Fungsi untuk mengatur tampil/sembunyi Pratinjau Surat secara permanen dengan localStorage
+function setupPreviewToggle() {
+    const mainLayout = document.getElementById('mainLayout');
+    const toggleBtn = document.getElementById('togglePreviewBtn');
+
+    if (!mainLayout || !toggleBtn) return;
+
+    // Baca status dari localStorage; jika belum pernah diset, default-nya adalah false (hide)
+    let isPreviewVisible = localStorage.getItem('showLetterPreview') === 'true';
+
+    function applyPreviewState(visible) {
+        if (visible) {
+            mainLayout.classList.remove('preview-hidden');
+            toggleBtn.textContent = 'Sembunyikan Pratinjau';
+            toggleBtn.classList.add('active');
+            syncPreviewHeight();
+        } else {
+            mainLayout.classList.add('preview-hidden');
+            toggleBtn.textContent = 'Tampilkan Pratinjau';
+            toggleBtn.classList.remove('active');
+        }
+    }
+
+    applyPreviewState(isPreviewVisible);
+
+    toggleBtn.addEventListener('click', () => {
+        isPreviewVisible = !isPreviewVisible;
+        localStorage.setItem('showLetterPreview', isPreviewVisible ? 'true' : 'false');
+        applyPreviewState(isPreviewVisible);
+    });
+}
+
 // Fungsi untuk memastikan preview surat sama tinggi dengan form dan scrollable di desktop
 function syncPreviewHeight() {
+    const mainLayout = document.getElementById('mainLayout');
+    if (mainLayout && mainLayout.classList.contains('preview-hidden')) {
+        return;
+    }
+
     if (window.innerWidth > 992) {
         const formContainer = document.querySelector('.form-container');
         const previewContainer = document.querySelector('.preview-container');
